@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>쥬라기 유전자 막싸움</title>
+<meta name="description" content="공룡을 교배해 혼종을 만들고, 흐물흐물한 래그돌 물리 투기장에서 막싸움을 벌이는 웹 게임">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Jua&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <header class="top">
+    <h1 class="logo"><span class="logo-egg" data-ic="dna" data-ic-size="26"></span>쥬라기 유전자 막싸움</h1>
+    <div class="wallet">
+      <span class="chip chip-coin" title="상금"><span data-ic="coins"></span><b id="coin-count">0</b></span>
+      <span class="chip chip-egg" title="희귀 알"><span data-ic="egg"></span><b id="egg-count">0</b></span>
+      <button class="icon-btn" id="btn-sfx" type="button" aria-label="효과음 켜기/끄기" aria-pressed="true"><span data-ic="volume-2"></span></button>
+      <button class="icon-btn" id="btn-music" type="button" aria-label="배경 음악 켜기/끄기" aria-pressed="true"><span data-ic="audio-lines"></span></button>
+      <button class="icon-btn" id="btn-help" type="button" aria-label="게임 방법"><span data-ic="circle-question-mark"></span></button>
+    </div>
+  </header>
+  <nav class="tabs" role="tablist" aria-label="게임 메뉴">
+    <button class="tab" role="tab" type="button" id="tab-lab" data-view="lab" aria-selected="true"><span data-ic="dna" data-ic-size="22"></span>교배소</button>
+    <button class="tab" role="tab" type="button" id="tab-train" data-view="train" aria-selected="false"><span data-ic="dumbbell" data-ic-size="22"></span>훈련장</button>
+    <button class="tab" role="tab" type="button" id="tab-dex" data-view="dex" aria-selected="false"><span data-ic="book-open" data-ic-size="22"></span>유전자 도감</button>
+    <button class="tab" role="tab" type="button" id="tab-arena" data-view="arena" aria-selected="false"><span data-ic="swords" data-ic-size="22"></span>투기장</button>
+  </nav>
+  <main id="main" tabindex="-1">
+    <section class="view" id="view-lab" role="tabpanel" aria-labelledby="tab-lab"></section>
+    <section class="view" id="view-train" role="tabpanel" aria-labelledby="tab-train" hidden></section>
+    <section class="view" id="view-dex" role="tabpanel" aria-labelledby="tab-dex" hidden></section>
+    <section class="view" id="view-arena" role="tabpanel" aria-labelledby="tab-arena" hidden></section>
+  </main>
+</div>
+
+<!-- 투기장(전체 화면) -->
+<div id="arena-layer" hidden>
+  <div id="arena-stage"><canvas id="arena-canvas" aria-label="투기장"></canvas></div>
+  <div class="arena-ui">
+    <button class="btn btn-small" id="arena-pause" type="button"><span data-ic="pause"></span>일시정지</button>
+    <button class="btn btn-small btn-ghost" id="arena-exit" type="button"><span data-ic="log-out"></span>나가기</button>
+  </div>
+  <p class="rotate-note">화면을 가로로 돌리면 투기장이 더 크게 보인다</p>
+  <div class="touch-pad" id="touch-pad" aria-hidden="true">
+    <div class="touch-left">
+      <button type="button" class="tbtn" data-touch="left">◀</button>
+      <button type="button" class="tbtn" data-touch="right">▶</button>
+    </div>
+    <div class="touch-right">
+      <button type="button" class="tbtn tbtn-a" data-touch="a3">팔</button>
+      <button type="button" class="tbtn tbtn-a" data-touch="a2">꼬리</button>
+      <button type="button" class="tbtn tbtn-a" data-touch="a1">머리</button>
+      <button type="button" class="tbtn tbtn-j" data-touch="jump">점프</button>
+    </div>
+  </div>
+  <div id="arena-panel" hidden></div>
+</div>
+
+<div id="modal-root"></div>
+<div id="toast-root" aria-live="polite"></div>
+
+<!-- 물리 엔진: CDN에서 받고, 실패하면 함께 들어 있는 사본을 쓴다 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.20.0/matter.min.js"></script>
+<script>if (!window.Matter) { var s = document.createElement('script'); s.src = 'vendor/matter.min.js'; document.head.appendChild(s); }</script>
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/dino.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/fighter.js"></script>
+<script src="js/arena.js"></script>
+<script src="js/train.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>
