@@ -220,6 +220,7 @@
     $('#btn-rare').addEventListener('click', doRare);
   }
   function doBreed() {
+    window.GameTracker && GameTracker.milestone('첫 교배', 1);
     var a = byId(ui.pa), b = byId(ui.pb), cost = breedCost();
     if (!a || !b || state.coins < cost || state.dinos.length >= JG.ROSTER_CAP) { A('error'); return; }
     state.coins -= cost;
@@ -387,6 +388,7 @@
     render();
   }
   function openMini(d, kind) {
+    window.GameTracker && GameTracker.milestone('훈련 미니게임', 2);
     var game = null, title = kind === 'rock' ? '바위 부수기' : '운석 피하기';
     var m = openModal('<h2>' + title + '</h2><p class="muted">' + esc(JG.dinoName(d)) + ' 훈련 중</p><div class="mini-stage"><canvas id="mini-cv"></canvas></div><div id="mini-res"></div>', { onClose: function () { if (game) game.destroy(); render(); } });
     function start() {
@@ -440,6 +442,7 @@
     return JG.speciesSet(d).map(sp).join('<span class="x">×</span>');
   }
   function openDex(e) {
+    window.GameTracker && GameTracker.milestone('도감 열람', 5);
     var has = !!state.dex[e.id], d = dexSample(e), body;
     if (has) {
       var st = JG.stats(d), bonus = '';
@@ -639,6 +642,7 @@
     render();
   }
   function onMatchEnd(res) {
+    if (res && res.mode !== 'demo') window.GameTracker && GameTracker.milestone('첫 경기 종료', 3);
     var a = ui.arena, win = res.winner === 0, p = $('#arena-panel'), title, sub, rewards = '', next = '', me, coins = 0;
     if (res.mode === 'demo') { exitArena(); return; }
     if (arena) arena.banner = null;
@@ -651,6 +655,7 @@
       if (win) {
         coins = Math.round(T.prize * (me.mut === 'golden' ? 1.5 : 1)); me.wins++; tour.idx++;
         if (tour.idx >= JG.TOUR.length) {
+          window.GameTracker && GameTracker.milestone('리그 우승', 4);
           state.tour = null; state.eggs++; state.titles++;
           title = '리그 우승!'; sub = esc(JG.dinoName(me)) + ' · 챔피언 등극';
           rewards = '<span class="tag">' + ic('coins', 15) + '+' + coins + '</span><span class="tag tag-egg">' + ic('egg', 15) + '희귀 알 +1</span>';
